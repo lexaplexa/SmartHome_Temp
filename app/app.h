@@ -2,7 +2,7 @@
  * app.h
  *
  * Created: 24.6.2018 10:34:46
- * Revised:
+ * Revised: 2.12.2018
  * Author: LeXa
  * BOARD:
  *
@@ -19,11 +19,10 @@
 /************************************************************************/
 /* EXTERNAL CLASSES                                                     */
 /************************************************************************/
-extern RF cRf;
-extern RF_DATA RFData;
-extern DATASET_RF DSRf;
-extern SHT3X cSht;
-extern DS18B20 cDs18b20;
+extern class RF cRf;                /* app\tasks\task_rf.cpp */
+extern class DS18B20 cTempOut;      /* app\tasks\task_temp.cpp */
+extern class SHT3X cTempHum;        /* app\tasks\task_temp.cpp */
+extern union DATASET_RF DSRf;       /* app\tasks\task_startupapp.cpp */
 
 /************************************************************************/
 /* TASK PROTOTYPES                                                      */
@@ -38,7 +37,8 @@ extern DS18B20 cDs18b20;
 /*                                                                      */
 /* Every task source code must include core.h                           */
 /************************************************************************/
-void taskRf();
-void taskTemp();
+void task_rf();
+void task_temp_meas();
+void task_temp_read();
 
 #endif /* APP_H_ */

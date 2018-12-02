@@ -2,9 +2,9 @@
  * conf_board.h
  *
  * Created: 11.2.2016 13:01:57
- * Revised: 15.7.2018
+ * Revised: 25.11.2018
  * Author: LeXa
- * BOARD: LED_LIGHT_E2
+ * BOARD: METEO_STATION_B
  *
  * ABOUT:
  * Configuration of board

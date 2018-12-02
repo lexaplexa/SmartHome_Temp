@@ -2,7 +2,7 @@
  * task_startupapp.cpp
  *
  * Created: 16.9.2018 10:37:08
- * Revised:
+ * Revised: 2.12.2018
  * Author: LeXa
  * BOARD:
  *
@@ -21,10 +21,6 @@ DATASET_RF EEDSRf EEMEM = {
     0x00000000                  /* CRC application sector checksum          */
 };
 
-uint8_t aData[2] = {0xCC,0xBE};
-void repeat();
-
-
 void taskStartUpApp()
 {
     /* Load Datasets from EEPROM */
@@ -32,17 +28,7 @@ void taskStartUpApp()
     
     /* ADC initialization */
     adc_init(ADCA,ADC_PRESCALER_DIV256_gc,ADC_RESOLUTION_12BIT_gc);
-    
-    /* Real Time Clock initialization */
-    //CLK.RTCCTRL = (0x06<<1)|CLK_RTCEN_bm;
-    //RTC.INTCTRL = RTC_OVFINTLVL_HI_gc;
-    //RTC.CNT = 0;
-    //while (RTC.STATUS & RTC_SYNCBUSY_bm);
-    //RTC.PER = 0x7FFF;
-    //while (RTC.STATUS & RTC_SYNCBUSY_bm);
-    //RTC.CTRL = RTC_PRESCALER_DIV1_gc;
-    //while (RTC.STATUS & RTC_SYNCBUSY_bm);
-    
+
     /* RF initialization */
     cRf.Init();
     cRf.SetBaud((RF_BAUD_enum)DSRf.unRFBaud);
@@ -51,12 +37,8 @@ void taskStartUpApp()
     cRf.SetRXaddress(DSRf.aTransmitAddress,5,0);
     cRf.WakeUp();
     
-    /* Temperature sensors initialization */
-    taskTemp();
-    cMTask.Repeat(taskTemp, TASK_TOUT_MS(1000));
+    task_temp_meas();
     
-    /* Send message after start. Slave identifies itself */
-    RFData.eRfCommand = RF_COMM_STATUS;
-    cRf.m_eStatus = RF_STATUS_RECEIVE_OK;
-    taskRf();
+    /* Cyclic measure temp */
+    cMTask.Repeat(task_temp_meas, TASK_TOUT_MS(5000));
 }

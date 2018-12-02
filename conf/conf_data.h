@@ -2,7 +2,7 @@
  * conf_data.h
  *
  * Created: 16.9.2018 17:09:11
- * Revised: 
+ * Revised: 2.12.2018
  * Author: LeXa
  * BOARD:
  *
@@ -99,11 +99,11 @@ union RF_DATA {
             {
                 ERROR_enum                  eError;
                 struct STATUS_TEMP_struct {
-                    DEVICE_TYPE_enum eDeviceType;
+                    DEVICE_TYPE_enum eDeviceType;                    
                     uint8_t unSupplyVolt;                   /* 1bit = 0,1V */
-                    int16_t nTempSHT3x;                     /* 1bit = 0,01°C */
-                    uint16_t unHumSHT3x;                    /* 1bit = 0,1% */
                     int16_t nTempDS18B20;                   /* 1bit = 0,01°C */
+                    int16_t nTempSHT3x;                     /* 1bit = 0,01°C */
+                    uint16_t unHumSHT3x;                    /* 1bit = 0,1% */                    
                 } sStatusTemp;
             } Slave;
         };

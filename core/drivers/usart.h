@@ -2,7 +2,7 @@
  * usart.h
  *
  * Created: 11.10.2014 21:07:33
- * Revised: 19.4.2017
+ * Revised: 16.9.2018
  * Author: LeXa
  * BOARD: 
  *

@@ -2,7 +2,7 @@
  * multitask.cpp
  *
  * Created: 4.12.2015 15:15:18
- * Revised: 24.6.2018
+ * Revised: 14.10.2018
  * Author: LeXa
  * BOARD: 
  * ABOUT:
@@ -99,8 +99,7 @@ inline uint8_t MTASK::unFreeOrRunPos(void taskFunc())
     }
     if (unBufPos == TASK_BUFFER_FULL && peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow]) 
     {
-        FuncPtr_t CallBack = (FuncPtr_t)peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow]; 
-        CallBack();
+        ((FuncPtr_t)peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow])();
     }
     return unBufPos;
 }
@@ -113,8 +112,7 @@ inline uint8_t MTASK::unBufferPos(void taskFunc())
     }
     if (peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow]) 
     {
-        FuncPtr_t CallBack = (FuncPtr_t)peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow]; 
-        CallBack();
+        ((FuncPtr_t)peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow])();
     }
     return TASK_BUFFER_FULL;
 }

@@ -67,7 +67,7 @@ class ADC
         
         uint16_t Read(ADC_CH_MUXPOS_enum eMuxPos, ADC_CH_GAIN_enum eGain)
         {
-            m_psADC->CH0.MUXCTRL = eMuxPos|ADC_CH_MUXNEG_INTGND_MODE3_gc;                               /* Select analog pin */
+            m_psADC->CH0.MUXCTRL = eMuxPos|0x07;                               /* Select analog pin */
             m_psADC->CH0.CTRL = ADC_CH_START_bm|eGain|ADC_CH_INPUTMODE_DIFFWGAIN_gc;
             while (!(m_psADC->INTFLAGS & ADC_CH_CHIF_bm));              /* Wait for conversion result */
             m_psADC->INTFLAGS |= ADC_CH_CHIF_bm;                        /* Clear flag */

@@ -1,7 +1,7 @@
 /*************************************************************************
  * task_temp.cpp
  *
- * Created: 16.9.2018 15:28:42
+ * Created: 2.12.2018 13:29:50
  * Revised:
  * Author: LeXa
  * BOARD:
@@ -12,18 +12,18 @@
 
 #include <app/app.h>
 
-SHT3X cSht(&SHT3X_TWI, SHT3X_TWI_BAUD, F_CPU);
-DS18B20 cDs18b20(&DS18B20_USART, &DS18B20_PORT, F_CPU);
-void ds18b20_read_temp();
+DS18B20 cTempOut(&DS18B20_USART, &DS18B20_PORT, F_CPU);
+SHT3X cTempHum(&SHT3X_TWI, SHT3X_TWI_BAUD, F_CPU);
 
-void taskTemp()
+void task_temp_meas()
 {
-    cSht.SingleShotMeasure(SHT3X_SINGLESHOT_ACCURACY_HIGH);
-    cDs18b20.MeasTemp();
-    cMTask.Delay(ds18b20_read_temp, TASK_TOUT_MS(750));
+    cTempOut.MeasTemp();
+    cMTask.Delay(task_temp_read, TASK_TOUT_MS(750));
+    cTempHum.SingleShotMeasure(SHT3X_SINGLESHOT_ACCURACY_HIGH);
 }
 
-void ds18b20_read_temp()
+void task_temp_read()
 {
-    cDs18b20.ReadTemp();
+    cTempOut.ReadTemp();
+    cTempHum.ReadOut();
 }
