@@ -33,7 +33,7 @@ void task_rf()
             int16_t nAdcRes;
             float fVolt;
             
-            RFData.Slave.sStatusTemp.eDeviceType = DEVICE_TYPE_LED_CONTROLLER;
+            RFData.Slave.sStatusTemp.eDeviceType = DEVICE_TYPE_TEMP;
             /* Read supply voltage */
             adc_read(ADCA,SUPPLY_MUX_PIN,nAdcRes);
             fVolt = ADC_TO_VOLT((float)nAdcRes*SUPPLY_RATIO*10);
