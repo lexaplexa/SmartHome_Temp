@@ -115,10 +115,6 @@ inline uint8_t MTASK::unBufferPos(void taskFunc())
     {
         if (m_sTask[i].ptaskFunc == taskFunc) {return i;}
     }
-    if (m_peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow]) 
-    {
-        ((FuncPtr_t)m_peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow])();
-    }
     return TASK_BUFFER_FULL;
 }
 
