@@ -2,7 +2,7 @@
  * multitask.h
  *
  * Created: 4.12.2015 14:40:09
- * Revised: 31.3.2018
+ * Revised: 8.12.2018
  * Author:  LeXa
  * BOARD: 
  * ABOUT:
@@ -35,15 +35,6 @@
 /************************************************************************/
 #ifndef STARTUP_TIMEOUT
     #define STARTUP_TIMEOUT             10
-#endif
-
-/************************************************************************/
-/* DEEP SLEEP                                                           */
-/* Controller can be put under deep sleep if no tasks are active.       */
-/* Multitask counter is not running. There are limited wake-up sources. */
-/************************************************************************/
-#ifndef DEEP_SLEEP
-    #define DEEP_SLEEP                  false
 #endif
 
 /************************************************************************/
@@ -137,6 +128,7 @@ class MTASK
         uint8_t m_unCurrentTask;                        /* Current running task, if == TASK_IDLE, then no task is running */
         uint8_t m_unActiveTasks;                        /* Number of active tasks */
         uint8_t m_unHighestPrio;                        /* Highest priority in a schedule loop */
+        bool bDeepSleepEnable;                          /* Deep sleep mode */
         TASK_struct m_sTask[TASK_BUFFER_SIZE];          /* Task buffer */
         void* peventFunc[TASK_EVENT_TYPE_sum];          /* Pointer to event function */
         
@@ -308,6 +300,24 @@ class MTASK
         * \return void
         */
         void Replace(void taskOrigin(), void taskReplace());
+        
+        
+        /**
+         * \brief   Enable deep sleep
+         * 
+         * 
+         * \return void
+         */
+        void DeepSleepEnable() {bDeepSleepEnable = true;}
+        
+        
+        /**
+         * \brief   Disable deep sleep
+         * 
+         * 
+         * \return void
+         */
+        void DeepSleepDisable() {bDeepSleepEnable = false;}
         
         
         /**

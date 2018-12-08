@@ -2,7 +2,7 @@
  * multitask.cpp
  *
  * Created: 4.12.2015 15:15:18
- * Revised: 14.10.2018
+ * Revised: 8.12.2018
  * Author: LeXa
  * BOARD: 
  * ABOUT:
@@ -75,7 +75,7 @@ void inline MTASK::Schedule()
     /* If no active task available, CPU is going to POWER SAVE 
      * sleep mode, else to IDLE sleep mode.
      * Wait for next interrupt (tick or some else interrupt) */
-    else if (DEEP_SLEEP && !m_unActiveTasks)
+    else if (bDeepSleepEnable && !m_unActiveTasks)
     {
         SLEEP.CTRL = SLEEP_SMODE_PSAVE_gc|SLEEP_SEN_bm;
         asm("sleep");
