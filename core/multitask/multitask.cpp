@@ -12,7 +12,7 @@
 #include "multitask.h"
 
 #define SysTimeOverflow             m_nSysTime < 0
-#define isTaskActive(pos)           (m_sTask[pos].ptaskFunc)
+#define isTaskActive(pos)           (m_sTask[pos].ptaskFunc && !m_sTask[pos].bSuspend)
 #define isTaskReadyToRun(pos)       !m_sTask[pos].bSuspend && m_sTask[pos].nTimeMatch <= m_nSysTime && m_sTask[pos].unPriority >= m_unHighestPrio
 #define setTaskInactive(pos)        m_sTask[pos].nTimeMatch = -1; m_sTask[pos].unPriority = 0; m_sTask[pos].ptaskFunc = 0
 
@@ -142,7 +142,6 @@ void MTASK::Delay(void taskFunc(), uint16_t unTimeout)
     m_sTask[unBufPos].bSuspend = false;
 }
 
-
 void MTASK::Delay(void taskFunc(), uint16_t unTimeout, uint8_t unPriority)
 {
     uint8_t unBufPos = unFreeOrRunPos(taskFunc);
@@ -164,7 +163,6 @@ void MTASK::Repeat(void taskFunc(), uint16_t unTimeout)
     m_sTask[unBufPos].bRepeat = true;
     m_sTask[unBufPos].bSuspend = false;
 }
-
 
 void MTASK::Repeat(void taskFunc(), uint16_t unTimeout, uint8_t unPriority)
 {
