@@ -30,14 +30,7 @@ void inline MTASK::TickElapsed()
     m_nSysTime++;
     
     /* When system time overflows, most significant bit of every time match needs to be cleared */
-    if (SysTimeOverflow)
-    {
-        m_nSysTime = 0;
-        for (uint8_t i=0; i<TASK_BUFFER_SIZE; i++) 
-        {
-            if(isTaskActive(i)) {m_sTask[i].nTimeMatch &= 0x7FFFFFFF;}
-        }
-    }
+    if (SysTimeOverflow) {m_nSysTime = 0;}
     
     /* Increment time match if task is active and suspended */
     for (uint8_t i=0; i<TASK_BUFFER_SIZE; i++)
@@ -67,7 +60,7 @@ void inline MTASK::Schedule()
     if (m_unCurrentTask != TASK_IDLE)
     {
         FuncPtr_t pvRunTask = (FuncPtr_t)m_sTask[m_unCurrentTask].ptaskFunc;
-        if (m_sTask[m_unCurrentTask].bRepeat) {m_sTask[m_unCurrentTask].nTimeMatch = m_nSysTime + m_sTask[m_unCurrentTask].unTimeOut;}
+        if (m_sTask[m_unCurrentTask].bRepeat) {m_sTask[m_unCurrentTask].nTimeMatch = (m_nSysTime + m_sTask[m_unCurrentTask].unTimeOut) & 0x7FFFFFFF;}
         else {setTaskInactive(m_unCurrentTask);}        /* This task buffer position is inactive and free for another task */
         pvRunTask();                                    /* Run task */
     }
@@ -144,7 +137,7 @@ void MTASK::Delay(void taskFunc(), uint16_t unTimeout)
     uint8_t unBufPos = unFreeOrRunPos(taskFunc);
     if (unBufPos == TASK_BUFFER_FULL) {return;}
     m_sTask[unBufPos].ptaskFunc = (void*)taskFunc;
-    m_sTask[unBufPos].nTimeMatch = m_nSysTime + unTimeout;
+    m_sTask[unBufPos].nTimeMatch = (m_nSysTime + unTimeout) & 0x7FFFFFFF;
     m_sTask[unBufPos].bRepeat = false;
     m_sTask[unBufPos].bSuspend = false;
 }
@@ -155,7 +148,7 @@ void MTASK::Delay(void taskFunc(), uint16_t unTimeout, uint8_t unPriority)
     uint8_t unBufPos = unFreeOrRunPos(taskFunc);
     if (unBufPos == TASK_BUFFER_FULL) {return;}
     m_sTask[unBufPos].ptaskFunc = (void*)taskFunc;
-    m_sTask[unBufPos].nTimeMatch = m_nSysTime + unTimeout;
+    m_sTask[unBufPos].nTimeMatch = (m_nSysTime + unTimeout) & 0x7FFFFFFF;
     m_sTask[unBufPos].bRepeat = false;
     m_sTask[unBufPos].bSuspend = false;
     m_sTask[unBufPos].unPriority = unPriority;
@@ -166,7 +159,7 @@ void MTASK::Repeat(void taskFunc(), uint16_t unTimeout)
     uint8_t unBufPos = unFreeOrRunPos(taskFunc);
     if (unBufPos == TASK_BUFFER_FULL) {return;}
     m_sTask[unBufPos].ptaskFunc = (void*)taskFunc;
-    m_sTask[unBufPos].nTimeMatch = m_nSysTime + unTimeout;
+    m_sTask[unBufPos].nTimeMatch = (m_nSysTime + unTimeout) & 0x7FFFFFFF;
     m_sTask[unBufPos].unTimeOut = unTimeout;
     m_sTask[unBufPos].bRepeat = true;
     m_sTask[unBufPos].bSuspend = false;
@@ -178,7 +171,7 @@ void MTASK::Repeat(void taskFunc(), uint16_t unTimeout, uint8_t unPriority)
     uint8_t unBufPos = unFreeOrRunPos(taskFunc);
     if (unBufPos == TASK_BUFFER_FULL) {return;}
     m_sTask[unBufPos].ptaskFunc = (void*)taskFunc;
-    m_sTask[unBufPos].nTimeMatch = m_nSysTime + unTimeout;
+    m_sTask[unBufPos].nTimeMatch = (m_nSysTime + unTimeout) & 0x7FFFFFFF;
     m_sTask[unBufPos].unTimeOut = unTimeout;
     m_sTask[unBufPos].bRepeat = true;
     m_sTask[unBufPos].bSuspend = false;
