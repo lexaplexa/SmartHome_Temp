@@ -93,6 +93,8 @@ struct TASK_struct {
 /************************************************************************/
 enum TASK_EVENT_TYPE_enum {
     TASK_EVENT_TYPE_TaskBufferOverflow,
+    TASK_EVENT_TYPE_BeforeDeepSleep,
+    TASK_EVENT_TYPE_AfterWakeUp,
     TASK_EVENT_TYPE_sum             /* Sum of all events. DO NOT DELETE!! */
 };
 
@@ -128,9 +130,9 @@ class MTASK
         uint8_t m_unCurrentTask;                        /* Current running task, if == TASK_IDLE, then no task is running */
         uint8_t m_unActiveTasks;                        /* Number of active tasks */
         uint8_t m_unHighestPrio;                        /* Highest priority in a schedule loop */
-        bool bDeepSleepEnable;                          /* Deep sleep mode */
+        bool bDeepSleepEnabled = false;                 /* Deep sleep mode */
         TASK_struct m_sTask[TASK_BUFFER_SIZE];          /* Task buffer */
-        void* peventFunc[TASK_EVENT_TYPE_sum];          /* Pointer to event function */
+        void* m_peventFunc[TASK_EVENT_TYPE_sum];          /* Pointer to event function */
         
          
         /**
@@ -308,7 +310,7 @@ class MTASK
          * 
          * \return void
          */
-        void DeepSleepEnable() {bDeepSleepEnable = true;}
+        void DeepSleepEnable() {bDeepSleepEnabled = true;}
         
         
         /**
@@ -317,7 +319,7 @@ class MTASK
          * 
          * \return void
          */
-        void DeepSleepDisable() {bDeepSleepEnable = false;}
+        void DeepSleepDisable() {bDeepSleepEnabled = false;}
         
         
         /**

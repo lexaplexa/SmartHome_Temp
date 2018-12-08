@@ -75,11 +75,16 @@ void inline MTASK::Schedule()
     /* If no active task available, CPU is going to POWER SAVE 
      * sleep mode, else to IDLE sleep mode.
      * Wait for next interrupt (tick or some else interrupt) */
-    else if (bDeepSleepEnable && !m_unActiveTasks)
+    else if (bDeepSleepEnabled && !m_unActiveTasks)
     {
+        /* Run event before deep sleep if available */
+        if (m_peventFunc[TASK_EVENT_TYPE_BeforeDeepSleep]) {((FuncPtr_t)m_peventFunc[TASK_EVENT_TYPE_BeforeDeepSleep])();}
+        /* Set power save mode */
         SLEEP.CTRL = SLEEP_SMODE_PSAVE_gc|SLEEP_SEN_bm;
         asm("sleep");
         SLEEP.CTRL = 0;
+        /* Run event after wake up if available */
+        if (m_peventFunc[TASK_EVENT_TYPE_AfterWakeUp]) {((FuncPtr_t)m_peventFunc[TASK_EVENT_TYPE_AfterWakeUp])();}
     }
     else
     {
@@ -97,9 +102,9 @@ inline uint8_t MTASK::unFreeOrRunPos(void taskFunc())
         if (m_sTask[i].ptaskFunc == taskFunc) {return i;}
         else if (!isTaskActive(i)) {unBufPos = i;}
     }
-    if (unBufPos == TASK_BUFFER_FULL && peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow]) 
+    if (unBufPos == TASK_BUFFER_FULL && m_peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow]) 
     {
-        ((FuncPtr_t)peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow])();
+        ((FuncPtr_t)m_peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow])();
     }
     return unBufPos;
 }
@@ -110,9 +115,9 @@ inline uint8_t MTASK::unBufferPos(void taskFunc())
     {
         if (m_sTask[i].ptaskFunc == taskFunc) {return i;}
     }
-    if (peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow]) 
+    if (m_peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow]) 
     {
-        ((FuncPtr_t)peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow])();
+        ((FuncPtr_t)m_peventFunc[TASK_EVENT_TYPE_TaskBufferOverflow])();
     }
     return TASK_BUFFER_FULL;
 }
@@ -226,7 +231,7 @@ void MTASK::Replace(void taskOrigin(), void taskReplace())
 void MTASK::SetEvent(TASK_EVENT_TYPE_enum eEventType, void vCallBack())
 {
     if (eEventType >= TASK_EVENT_TYPE_sum) {return;}
-    peventFunc[eEventType] = (void*)vCallBack;
+    m_peventFunc[eEventType] = (void*)vCallBack;
 }
 
 
