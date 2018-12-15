@@ -2,7 +2,7 @@
  * ds18b20.cpp
  *
  * Created: 16.9.2018 16:13:57
- * Revised: 
+ * Revised: 15.12.2018
  * Author: LeXa
  * BOARD:
  * ABOUT:
@@ -108,18 +108,11 @@ void DS18B20::MeasTemp()
 void DS18B20::ReadTemp()
 {
     uint8_t aData[2] = {0xCC,0xBE};
-    Read(aData,2,m_aTempData,2);
-}
-
-float DS18B20::GetTempC()
-{
-    float fTemp;
+    Read(aData,2,aData,2);
     
-    fTemp = (float)(m_aTempData[0]>>4|m_aTempData[1]<<4);
-    if (m_aTempData[0] & 0x08) {fTemp += 0.5;}
-    if (m_aTempData[0] & 0x04) {fTemp += 0.25;}
-    if (m_aTempData[0] & 0x02) {fTemp += 0.125;}
-    if (m_aTempData[0] & 0x01) {fTemp += 0.0625;}
-    
-    return fTemp;
+    m_fTempC = (float)((int8_t)(aData[0]>>4|aData[1]<<4));
+    if (aData[0] & 0x08) {m_fTempC += 0.5;}
+    if (aData[0] & 0x04) {m_fTempC += 0.25;}
+    if (aData[0] & 0x02) {m_fTempC += 0.125;}
+    if (aData[0] & 0x01) {m_fTempC += 0.0625;}
 }

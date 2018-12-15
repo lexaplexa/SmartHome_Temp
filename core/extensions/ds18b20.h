@@ -2,7 +2,7 @@
  * ds18b20.h
  *
  * Created: 18.4.2017 16:44:17
- * Revised: 16.9.2018
+ * Revised: 15.12.2018
  * Author: LeXa
  * BOARD:
  * ABOUT:
@@ -24,7 +24,7 @@ class DS18B20
         USART_t *m_psUsart;
         PORT_t *m_psPort;
         uint32_t m_unFCpu;
-        uint8_t m_aTempData[2];
+        float m_fTempC;
     
     public:
         DS18B20(USART_t *psUsart, PORT_t *psPort, uint32_t unFCpu);
@@ -32,7 +32,7 @@ class DS18B20
         bool Read(uint8_t *pDataToWrite, uint8_t unDataWriteLen, uint8_t *pDataToRead, uint8_t unDataReadLen);
         void MeasTemp();
         void ReadTemp();
-        float GetTempC();
+        float GetTempC() {return m_fTempC;}
 };
 
 #endif /* 1WIRE_UART_H_ */
