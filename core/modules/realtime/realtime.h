@@ -25,9 +25,13 @@ class REALTIME
         int32_t m_nCounter;
         int32_t m_nMatch = -1;
         void* m_pvTask;
+        uint8_t m_unTimeSeconds;
+        uint8_t m_unTimeMinutes;
+        uint8_t m_unTimeHours;
         
     public:
         REALTIME();
+        void SetTime(uint8_t unTimeHours, uint8_t unTimeMinutes, uint8_t unTimeSeconds);
         void StartCounter(void pvTask(), uint16_t unTimeoutS);
         void InterruptHandler();
 };
