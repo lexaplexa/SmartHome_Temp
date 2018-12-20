@@ -41,5 +41,7 @@ extern union DATASET_RF DSRf;       /* app\tasks\task_startupapp.cpp */
 void task_rf();
 void task_temp_meas();
 void task_temp_read();
+void eventBeforeSleep();
+void eventAfterWakeUp();
 
 #endif /* APP_H_ */
