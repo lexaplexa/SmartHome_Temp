@@ -177,11 +177,16 @@
     <Folder Include="core" />
     <Folder Include="core\drivers" />
     <Folder Include="core\extensions" />
+    <Folder Include="core\modules\realtime" />
     <Folder Include="core\multitask" />
+    <Folder Include="core\modules" />
     <Folder Include="core\tasks" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app\app.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="app\tasks\task_real_time.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="app\tasks\task_rf.cpp">
@@ -239,6 +244,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="core\extensions\sht3x.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="core\modules\realtime\realtime.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="core\modules\realtime\realtime.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="core\multitask\multitask.cpp">

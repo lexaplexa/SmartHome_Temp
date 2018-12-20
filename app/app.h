@@ -2,7 +2,7 @@
  * app.h
  *
  * Created: 24.6.2018 10:34:46
- * Revised: 2.12.2018
+ * Revised: 20.12.2018
  * Author: LeXa
  * BOARD:
  *
@@ -22,6 +22,7 @@
 extern class RF cRf;                /* app\tasks\task_rf.cpp */
 extern class DS18B20 cTempOut;      /* app\tasks\task_temp.cpp */
 extern class SHT3X cTempHum;        /* app\tasks\task_temp.cpp */
+extern class REALTIME cRtc;         /* app\tasks\task_real_time.cpp */
 extern union DATASET_RF DSRf;       /* app\tasks\task_startupapp.cpp */
 
 /************************************************************************/

@@ -2,7 +2,7 @@
  * core.h
  *
  * Created: 24.6.2018 09:57:04
- * Revised: 
+ * Revised: 20.12.2018
  * Author: LeXa
  * BOARD:
  *
@@ -34,6 +34,8 @@
 #include <core/extensions/ds18b20.h>
 #include <core/extensions/rf.h>
 #include <core/extensions/sht3x.h>
+
+#include <core/modules/realtime/realtime.h>
 
 
 /************************************************************************/

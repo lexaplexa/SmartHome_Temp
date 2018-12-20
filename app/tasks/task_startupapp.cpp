@@ -2,7 +2,7 @@
  * task_startupapp.cpp
  *
  * Created: 16.9.2018 10:37:08
- * Revised: 2.12.2018
+ * Revised: 20.12.2018
  * Author: LeXa
  * BOARD:
  *
@@ -37,8 +37,6 @@ void taskStartUpApp()
     cRf.SetRXaddress(DSRf.aTransmitAddress,5,0);
     cRf.WakeUp();
     
+    /* First temperature measure after start */
     task_temp_meas();
-    
-    /* Cyclic measure temp */
-    cMTask.Repeat(task_temp_meas, TASK_TOUT_MS(5000));
 }

@@ -2,7 +2,7 @@
  * task_temp.cpp
  *
  * Created: 2.12.2018 13:29:50
- * Revised:
+ * Revised: 20.12.2018
  * Author: LeXa
  * BOARD:
  *
@@ -20,6 +20,7 @@ void task_temp_meas()
     cTempOut.MeasTemp();
     cMTask.Delay(task_temp_read, TASK_TOUT_MS(750));
     cTempHum.SingleShotMeasure(SHT3X_SINGLESHOT_ACCURACY_HIGH);
+    cRtc.StartCounter(task_temp_meas,10);
 }
 
 void task_temp_read()
