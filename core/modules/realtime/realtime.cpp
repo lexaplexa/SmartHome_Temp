@@ -12,7 +12,6 @@
 
 #include "realtime.h"
 
-
  REALTIME::REALTIME()
 {
     CLK.RTCCTRL = (0x06<<1)|CLK_RTCEN_bm;
@@ -45,7 +44,7 @@ void REALTIME::InterruptHandler()
     if (m_nCounter < 0) {m_nCounter = 0;}
     if (m_nCounter >= m_nMatch && m_pvTask)
     {
-        ((FuncPtr_t)m_pvTask)();
+        cMTask.Run((FuncPtr_t)m_pvTask);
         m_nMatch = -1;
     }
     

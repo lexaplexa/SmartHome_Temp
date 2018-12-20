@@ -39,4 +39,9 @@ void taskStartUpApp()
     
     /* First temperature measure after start */
     task_temp_meas();
+    
+    /* Deep sleep */
+    cMTask.DeepSleepEnable();
+    cMTask.SetEvent(TASK_EVENT_TYPE_BeforeDeepSleep, eventBeforeSleep);
+    cMTask.SetEvent(TASK_EVENT_TYPE_AfterWakeUp, eventAfterWakeUp);
 }

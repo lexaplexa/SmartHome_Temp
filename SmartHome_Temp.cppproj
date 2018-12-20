@@ -172,6 +172,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="app" />
+    <Folder Include="app\events" />
     <Folder Include="app\tasks" />
     <Folder Include="conf" />
     <Folder Include="core" />
@@ -184,6 +185,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app\app.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="app\events\event_sleep_wakeup.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="app\tasks\task_real_time.cpp">
